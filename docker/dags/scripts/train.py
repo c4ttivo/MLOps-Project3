@@ -74,16 +74,16 @@ def train_xgboost():
 
         # print("Cross Validation score: ", np.mean(cross_val_score(xg_reg, X_train, Y_train, cv=10)))  # 10-fold 交叉验证
         xg_reg.fit(X_train, Y_train)
-        mlflow.xgboost.log_model(xg_reg,model_name
+        mlflow.xgboost.log_model(xg_reg,model_name)
 
-    Y_test_predict = xg_reg.predict(X_test)
-    acc = accuracy_score(Y_test, Y_test_predict)
-    mat = confusion_matrix(Y_test, Y_test_predict)
-    f1 = f1_score(Y_test, Y_test_predict, average='weighted')
-    print("Accuracy: ", acc)
-    print("F1 score: ", f1)
-    print("Confusion matrix: \n", mat)
-    print('Overall report: \n', classification_report(Y_test, Y_test_predict))
+        Y_test_predict = xg_reg.predict(X_test)
+        acc = accuracy_score(Y_test, Y_test_predict)
+        mat = confusion_matrix(Y_test, Y_test_predict)
+        f1 = f1_score(Y_test, Y_test_predict, average='weighted')
+        print("Accuracy: ", acc)
+        print("F1 score: ", f1)
+        print("Confusion matrix: \n", mat)
+        print('Overall report: \n', classification_report(Y_test, Y_test_predict))
 
 
 
