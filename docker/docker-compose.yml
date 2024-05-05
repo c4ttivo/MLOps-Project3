@@ -64,7 +64,7 @@ services:
     volumes:
       - mlflow-db-volume:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "mlflowruns"]
+      test: ["CMD", "pg_isready", "-U", "mlflowuser"]
       interval: 10s
       retries: 5
       start_period: 5s
@@ -79,7 +79,7 @@ services:
     volumes:
       - raw-db-volume:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "rawdb"]
+      test: ["CMD", "pg_isready", "-U", "rawusr"]
       interval: 10s
       retries: 5
       start_period: 5s
@@ -94,7 +94,7 @@ services:
     volumes:
       - clean-db-volume:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "cleandb"]
+      test: ["CMD", "pg_isready", "-U", "cleanusr"]
       interval: 10s
       retries: 5
       start_period: 5s
