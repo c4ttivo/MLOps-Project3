@@ -57,11 +57,11 @@ class Diabetes(BaseModel):
     examide: str = "No"                
     citoglipton: str = "No"            
     insulin: str = "No"                
-    "glyburide-metformin": str = "No"     
-    "glipizide-metformin": str = "No"    
-    "glimepiride-pioglitazone": str = "No"
-    "metformin-rosiglitazone": str = "No"
-    "metformin-pioglitazone": str = "No" 
+    glyburide_metformin: str = "No"     
+    glipizide_metformin: str = "No"    
+    glimepiride_pioglitazone: str = "No"
+    metformin_rosiglitazone: str = "No"
+    metformin_pioglitazone: str = "No" 
     change: str = "No"                 
     diabetesMed: str = "No"            
     readmitted: str = "NO"             
@@ -116,14 +116,14 @@ def predict_readmitted_random_forest(diabetes: Diabetes):
         "miglitol": [diabetes.miglitol],               
         "troglitazone": [diabetes.troglitazone],           
         "tolazamide": [diabetes.tolazamide],             
-        "examide": [diabetes.],                
+        "examide": [diabetes.examide],                
         "citoglipton": [diabetes.citoglipton],            
         "insulin": [diabetes.insulin],                
-        "glyburide-metformin": [diabetes.glyburide-metformin],     
-        "glipizide-metformin": [diabetes.glipizide-metformin],    
-        "glimepiride-pioglitazone": [diabetes.glimepiride-pioglitazone],
-        "metformin-rosiglitazone": [diabetes.metformin-rosiglitazone],
-        "metformin-pioglitazone": [diabetes.metformin-pioglitazone], 
+        "glyburide-metformin": [diabetes.glyburide_metformin],     
+        "glipizide-metformin": [diabetes.glipizide_metformin],    
+        "glimepiride-pioglitazone": [diabetes.glimepiride_pioglitazone],
+        "metformin-rosiglitazone": [diabetes.metformin_rosiglitazone],
+        "metformin-pioglitazone": [diabetes.metformin_pioglitazone], 
         "change": [diabetes.change],                 
         "diabetesMed": [diabetes.diabetesMed]                  
     }
