@@ -119,7 +119,7 @@ def train_random_forest():
     
     
     #Pipeline
-    pipeline = Pipeline(steps=[,
+    pipeline = Pipeline(steps=[
         ("scaler", StandardScaler(with_mean=False)),
         ("random_forest", RandomForestClassifier())
     ]) 
