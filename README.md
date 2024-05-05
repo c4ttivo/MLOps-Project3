@@ -37,7 +37,7 @@ Los anteriores comandos actualizan el repositorio y el sistema operativo antes d
 $ sudo reboot
 ```
 
-### Ejecutar docker si sudo
+### Ejecutar docker sin requerir sudo
 
 ```
 $ sudo usermod -aG docker $USER
@@ -87,7 +87,7 @@ $ minikube start --driver=docker -p puj
 Una vez se ha iniciado el cluster, para ejecutar el estado del cluster, se ejecuta:
 
 ```
-$ minikube status
+$ minikube -p puj status
 ```
 
 ### Interactuar con el cluster de Minikube
