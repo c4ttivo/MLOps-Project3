@@ -136,7 +136,7 @@ Ahora es necesario construir los contenedores
 
 ```
 $ echo -e "AIRFLOW_UID=$(id -u)" > .env
-$ sudo docker-compuse up airflow-init
+$ sudo docker-compose up airflow-init
 $ sudo docker-compose up
 ```
 
