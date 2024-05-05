@@ -18,7 +18,7 @@ model = mlflow.sklearn.load_model("models:/random_forest@production")
 
 class Diabetes(BaseModel):
     race: str = "Caucasian"                  
-    gender: str = "male"                  
+    gender: str = "Male"                  
     age: str = "[0-10)"                     
     weight: str = "[0-25)"                  
     admission_type_id: int = 6       
@@ -146,10 +146,6 @@ def predict_readmitted_random_forest(diabetes: Diabetes):
 
     return{"Readmitted": strres}
     
-
-def standardize(raw_data):
-    return ((raw_data - np.mean(raw_data, axis=0)) / np.std(raw_data, axis=0))
-
 
 def prepare_data(df): 
 
@@ -391,8 +387,6 @@ def prepare_data(df):
     numerics = ['race', 'age', 'time_in_hospital', 'num_medications', 'number_diagnoses',
                 'num_med_changed', 'num_med_taken', 'number_inpatient', 'number_outpatient', 'number_emergency',
                 'num_procedures', 'num_lab_procedures']
-
-    df[numerics] = standardize(df[numerics])
     
     feature_set = ['race', 'gender', 'age',
                    'admission_type_id', 'discharge_disposition_id', 'admission_source_id',

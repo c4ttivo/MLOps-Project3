@@ -35,10 +35,6 @@ def save_clean_data(df):
     train_df.to_sql('diabetes_training_data', engine, if_exists='replace', index=False)
     test_df.to_sql('diabetes_test_data', engine, if_exists='replace', index=False)    
     
-    
-def standardize(raw_data):
-    return ((raw_data - np.mean(raw_data, axis=0)) / np.std(raw_data, axis=0))
-
 
 def clean_data(): 
 
@@ -310,8 +306,5 @@ def clean_data():
     numerics = ['race', 'age', 'time_in_hospital', 'num_medications', 'number_diagnoses',
                 'num_med_changed', 'num_med_taken', 'number_inpatient', 'number_outpatient', 'number_emergency',
                 'num_procedures', 'num_lab_procedures']
-
-    df[numerics] = standardize(df[numerics])
-    df = df[(np.abs(sp.stats.zscore(df[numerics])) < 3).all(axis=1)]
 
     save_clean_data(df)

@@ -3,6 +3,7 @@ import pandas as pd
 from sqlalchemy import create_engine
 from sklearn.compose import make_column_transformer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.decomposition import PCA
 from sklearn.pipeline import Pipeline
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV, train_test_split
@@ -65,25 +66,28 @@ def train_xgboost():
     model_name = "xgboost"
 
     print("nums of train/test set: ", len(X_train), len(X_test), len(Y_train), len(Y_test))
+        
+    model = xgb.XGBClassifier()
 
-    #-------- XGboost ---------#
-    print('--- XGBoost model ---')
-    with mlflow.start_run():
+    pipeline = Pipeline([
+        ('standard_scaler', StandardScaler()), 
+        ('pca', PCA()), 
+        ('model', model)
+    ])
+
+    param_grid = {
+        'pca__n_components': [5, 10, 15, 20, 25, 30],
+        'model__max_depth': [2, 3, 5, 7, 10],
+        'model__n_estimators': [10, 100, 500],
+    }
+
+    grid = GridSearchCV(pipeline, param_grid, cv=5, n_jobs=-1, scoring='roc_auc')    
     
-        xg_reg = xgb.XGBClassifier()
+    mlflow.xgboost.autolog(log_model_signatures=True, log_input_examples=True,registered_model_name=model_name)
+    with mlflow.start_run(run_name="xgboost_run") as run:
 
-        # print("Cross Validation score: ", np.mean(cross_val_score(xg_reg, X_train, Y_train, cv=10)))  # 10-fold 交叉验证
-        xg_reg.fit(X_train, Y_train)
-        mlflow.xgboost.log_model(xg_reg,model_name)
-
-        Y_test_predict = xg_reg.predict(X_test)
-        acc = accuracy_score(Y_test, Y_test_predict)
-        mat = confusion_matrix(Y_test, Y_test_predict)
-        f1 = f1_score(Y_test, Y_test_predict, average='weighted')
-        print("Accuracy: ", acc)
-        print("F1 score: ", f1)
-        print("Confusion matrix: \n", mat)
-        print('Overall report: \n', classification_report(Y_test, Y_test_predict))
+        grid.fit(X_train, Y_train)      
+    
 
 
 
@@ -113,24 +117,24 @@ def train_random_forest():
     Y_train = train['readmitted']
     Y_test = test['readmitted']
     
+    
+    #Pipeline
+    pipeline = Pipeline(steps=[,
+        ("scaler", StandardScaler(with_mean=False)),
+        ("random_forest", RandomForestClassifier())
+    ]) 
+
+    param_grid = { 
+        "random_forest__max_depth":[5,10,15],
+        "random_forest__n_estimators":[100,150,200]
+    }
+
     model_name = "random_forest"
+    search_rf = GridSearchCV(pipeline, param_grid, n_jobs=2)
+
     mlflow.sklearn.autolog(log_model_signatures=True, log_input_examples=True,registered_model_name=model_name)
+    with mlflow.start_run(run_name="random_forest_run") as run:
 
-    print("nums of train/test set: ", len(X_train), len(X_test), len(Y_train), len(Y_test))
-
-    # ------- RF --------#
-    print('--- Random-forest model ---')
-
-    forest = RandomForestClassifier(n_estimators=100, max_depth=120, criterion="entropy")
-    # print("Cross Validation Score: ", np.mean(cross_val_score(forest, X_train, Y_train, cv=10)))
-    forest.fit(X_train, Y_train)
-
-    Y_test_predict = forest.predict(X_test)
-    acc = accuracy_score(Y_test, Y_test_predict)
-    mat = confusion_matrix(Y_test, Y_test_predict)
-    f1 = f1_score(Y_test, Y_test_predict, average='weighted')
-    print("Accuracy: ", acc)
-    print("F1 score: ", f1)
-    print("Confusion matrix: \n", mat)
-    print('Overall report: \n', classification_report(Y_test, Y_test_predict))
+        search_rf.fit(X_train, Y_train)    
+    
 
