@@ -63,16 +63,18 @@ def train_xgboost():
     Y_test = test['readmitted']
     
     model_name = "xgboost"
-    mlflow.sklearn.autolog(log_model_signatures=True, log_input_examples=True,registered_model_name=model_name)
 
     print("nums of train/test set: ", len(X_train), len(X_test), len(Y_train), len(Y_test))
 
     #-------- XGboost ---------#
     print('--- XGBoost model ---')
-    xg_reg = xgb.XGBClassifier()
+    with mlflow.start_run():
+    
+        xg_reg = xgb.XGBClassifier()
 
-    # print("Cross Validation score: ", np.mean(cross_val_score(xg_reg, X_train, Y_train, cv=10)))  # 10-fold 交叉验证
-    xg_reg.fit(X_train, Y_train)
+        # print("Cross Validation score: ", np.mean(cross_val_score(xg_reg, X_train, Y_train, cv=10)))  # 10-fold 交叉验证
+        xg_reg.fit(X_train, Y_train)
+        mlflow.xgboost.log_model(xg_reg,model_name
 
     Y_test_predict = xg_reg.predict(X_test)
     acc = accuracy_score(Y_test, Y_test_predict)
