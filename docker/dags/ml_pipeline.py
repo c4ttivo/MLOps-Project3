@@ -1,6 +1,6 @@
 from airflow import DAG
 from airflow.models import Variable
-from airflow.operators.python_operator import PythonOperator, ShortCircuitOperator,BranchOperator
+from airflow.operators.python_operator import PythonOperator, ShortCircuitOperator
 from airflow.operators.dummy_operator import DummyOperator
 from datetime import datetime, timedelta
 import requests
