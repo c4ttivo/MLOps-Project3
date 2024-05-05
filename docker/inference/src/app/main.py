@@ -393,6 +393,22 @@ def prepare_data(df):
                 'num_procedures', 'num_lab_procedures']
 
     df[numerics] = standardize(df[numerics])
-    df = df[(np.abs(sp.stats.zscore(df[numerics])) < 3).all(axis=1)]
+    
+    feature_set = ['race', 'gender', 'age',
+                   'admission_type_id', 'discharge_disposition_id', 'admission_source_id',
+                   'time_in_hospital', 'num_lab_procedures',
+                   'num_procedures',
+                   'num_medications', 'number_outpatient', 'number_emergency',
+                   'number_inpatient', 'diag_1', 'number_diagnoses',
+                   'max_glu_serum', 'A1Cresult', 'metformin', 'repaglinide', 'nateglinide',
+                   'chlorpropamide', 'glimepiride', 'acetohexamide', 'glipizide', 'glyburide',
+                   'tolbutamide',
+                   'pioglitazone', 'rosiglitazone', 'acarbose', 'miglitol',
+                   'troglitazone', 'tolazamide', 'insulin', 'glyburide-metformin',
+                   'glipizide-metformin', 'glimepiride-pioglitazone',
+                   'metformin-rosiglitazone', 'metformin-pioglitazone', 'change',
+                   'diabetesMed', 'num_med_changed', 'num_med_taken']
+    
+    X_pred = df[feature_set]    
 
-    return df
+    return X_pred
