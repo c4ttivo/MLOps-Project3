@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import numpy as np
 from sqlalchemy import create_engine
 from sklearn.model_selection import train_test_split
 import mlflow
