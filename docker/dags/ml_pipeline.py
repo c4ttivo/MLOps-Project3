@@ -83,7 +83,6 @@ fetch_and_store_data_task = ShortCircuitOperator(
 process_data_task = PythonOperator(
     task_id = 'clean_data',
     python_callable = clean_data,
-    provide_context = True,
     dag=dag
 )
 
