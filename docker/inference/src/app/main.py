@@ -155,15 +155,6 @@ def prepare_data(df):
 
     # Drop features
     df = df.drop(['weight', 'payer_code', 'medical_specialty', 'examide', 'citoglipton'], axis=1)
-    # drop bad data with '?' in diag
-    drop_ID = set(df[(df['diag_1'] == '?') & (df['diag_2'] == '?') & (df['diag_3'] == '?')].index)
-    # drop died patient data which 'discharge_disposition_id' == 11 | 19 | 20 | 21 indicates 'Expired'
-    drop_ID = drop_ID.union(set(df[(df['discharge_disposition_id'] == 11) | (df['discharge_disposition_id'] == 19) | \
-                                   (df['discharge_disposition_id'] == 20) | (df['discharge_disposition_id'] == 21)].index))
-    # drop 3 data with 'Unknown/Invalid' gender
-    drop_ID = drop_ID.union(df['gender'][df['gender'] == 'Unknown/Invalid'].index)
-    new_ID = list(set(df.index) - set(drop_ID))
-    df = df.iloc[new_ID]
 
     # calculate change times through 23 kinds of medicines
     # high change times refer to higher prob to readmit
