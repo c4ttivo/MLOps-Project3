@@ -129,7 +129,9 @@ def predict_readmitted_random_forest(diabetes: Diabetes):
     }
 
     df_to_predict = pd.DataFrame(data)
+    print("Antes",df_to_predict)
     df_to_predict = prepare_data(df_to_predict)
+    print("Despues",df_to_predict)
 
     # Hacer predicciones
     prediction = model.predict(df_to_predict)
