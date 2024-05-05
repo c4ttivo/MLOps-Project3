@@ -57,7 +57,7 @@ def train_xgboost():
     test = get_test_data()
     
     X_train = train[feature_set]
-    X_test = test[feature_set
+    X_test = test[feature_set]
     
     Y_train = train['readmitted']
     Y_test = test['readmitted']
