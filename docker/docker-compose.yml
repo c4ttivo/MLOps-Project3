@@ -331,6 +331,17 @@ services:
     depends_on:
       - mlflow
 
+  streamlit: 
+    build: ./streamlit
+    container_name: streamlit_app
+    ports:
+      - "8089:8501"
+    volumes:
+      - ./streamlit:/app
+    depends_on:
+      - mlflow  # Assuming Streamlit depends on the MLflow service
+    #restart: unless-stopped
+    restart: always
 
 volumes:
   minio-data:
@@ -338,4 +349,5 @@ volumes:
   mlflow-db-volume:
   raw-db-volume:
   clean-db-volume:
+
 
