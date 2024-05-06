@@ -54,6 +54,9 @@ services:
       retries: 5
       start_period: 5s
     restart: always
+    networks:
+      - netinference
+    
    
   mlflowdb:
     image: postgres:13
@@ -69,6 +72,8 @@ services:
       retries: 5
       start_period: 5s
     restart: always
+    networks:
+      - netinference
 
   rawdb:
     image: postgres:13
@@ -84,6 +89,8 @@ services:
       retries: 5
       start_period: 5s
     restart: always 
+    networks:
+      - netinference
     
   cleandb:
     image: postgres:13
@@ -99,6 +106,8 @@ services:
       retries: 5
       start_period: 5s
     restart: always
+    networks:
+      - netinference
 
   redis:
     image: redis:latest
@@ -111,6 +120,8 @@ services:
       retries: 50
       start_period: 30s
     restart: always
+    networks:
+      - netinference
 
   airflow-webserver:
     <<: *airflow-common
@@ -128,6 +139,8 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    networks:
+      - netinference
 
   airflow-scheduler:
     <<: *airflow-common
@@ -143,6 +156,8 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    networks:
+      - netinference
 
   airflow-worker:
     <<: *airflow-common
@@ -165,6 +180,8 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    networks:
+      - netinference
 
   airflow-triggerer:
     <<: *airflow-common
@@ -180,6 +197,8 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    networks:
+      - netinference
 
   airflow-init:
     <<: *airflow-common
@@ -258,6 +277,8 @@ services:
     user: "0:0"
     volumes:
       - ${AIRFLOW_PROJ_DIR:-.}:/sources
+    networks:
+      - netinference
 
   airflow-cli:
     <<: *airflow-common
@@ -271,6 +292,8 @@ services:
       - bash
       - -c
       - airflow
+    networks:
+      - netinference
 
   # You can enable flower by adding "--profile flower" option e.g. docker-compose --profile flower up
   # or by explicitly targeted on the command line e.g. docker-compose up flower.
@@ -293,6 +316,8 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    networks:
+      - netinference
         
   minio:
     container_name: Minio
@@ -307,6 +332,8 @@ services:
     volumes:
       - ./minio-data:/data
     restart: unless-stopped
+    networks:
+      - netinference
     
   mlflow:
     build: ./mlflow
@@ -323,25 +350,31 @@ services:
       - minio
       - mlflowdb
     command: mlflow server --backend-store-uri postgresql+psycopg2://mlflowuser:mlflowpass@mlflowdb/mlflowruns --default-artifact-root s3://mlflows3/artifacts --host 0.0.0.0 --serve-artifacts
+    networks:
+      - netinference
       
-  inference:
-    build: ./inference
-    ports:
-      - "80:80"
-    depends_on:
-      - mlflow
+  # inference:
+    # build: ./inference
+    # ports:
+      # - "80:80"
+    # depends_on:
+      # - mlflow
+    # networks:
+      # - netinference
 
-  streamlit: 
-    build: ./streamlit
-    container_name: streamlit_app
-    ports:
-      - "8089:8501"
-    volumes:
-      - ./streamlit:/app
-    depends_on:
-      - mlflow  # Assuming Streamlit depends on the MLflow service
-    #restart: unless-stopped
-    restart: always
+  # streamlit: 
+    # build: ./streamlit
+    # container_name: streamlit_app
+    # ports:
+      # - "8089:8501"
+    # volumes:
+      # - ./streamlit:/app
+    # depends_on:
+      # - mlflow  # Assuming Streamlit depends on the MLflow service
+    # #restart: unless-stopped
+    # restart: always
+    # networks:
+      # - netinference
 
 volumes:
   minio-data:
@@ -350,4 +383,7 @@ volumes:
   raw-db-volume:
   clean-db-volume:
 
+networks:
+  netinference:
+    external: true
 

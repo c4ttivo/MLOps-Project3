@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml -o komposefiles/ --volumes hostPath
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: streamlit
+  name: streamlit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: streamlit
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o komposefiles/ --volumes hostPath
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/netinference: "true"
+        io.kompose.service: streamlit
+    spec:
+      containers:
+        - image: streamlit
+          name: streamlit-app
+          ports:
+            - containerPort: 8501
+          resources: {}
+          volumeMounts:
+            - mountPath: /app
+              name: streamlit-hostpath0
+      restartPolicy: Always
+      volumes:
+        - hostPath:
+            path: /home/estudiante/MLOps-Project3/docker/streamlit
+          name: streamlit-hostpath0
+status: {}
