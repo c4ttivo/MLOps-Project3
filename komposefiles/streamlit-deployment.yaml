@@ -31,12 +31,6 @@ spec:
           ports:
             - containerPort: 8501
           resources: {}
-          volumeMounts:
-            - mountPath: /app
-              name: streamlit-hostpath0
+          imagePullPolicy: Always
       restartPolicy: Always
-      volumes:
-        - hostPath:
-            path: /home/estudiante/MLOps-Project3/docker/streamlit
-          name: streamlit-hostpath0
 status: {}
