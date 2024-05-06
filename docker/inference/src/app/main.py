@@ -12,7 +12,7 @@ os.environ['MLFLOW_S3_ENDPOINT_URL'] = "http://minio:9000"
 os.environ['AWS_ACCESS_KEY_ID'] = 'minioadmin'
 os.environ['AWS_SECRET_ACCESS_KEY'] = 'minioadmin'
 
-mlflow.set_tracking_uri("http://mlflow_server:5000/")
+mlflow.set_tracking_uri("http://mlflow:5000/")
 model = mlflow.sklearn.load_model("models:/random_forest@production")
 
 
