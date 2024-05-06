@@ -8,7 +8,7 @@ spec:
     - from:
         - podSelector:
             matchLabels:
-              io.kompose.network/netinference: "true"
+              io.kompose.network/puj: "true"
   podSelector:
     matchLabels:
-      io.kompose.network/netinference: "true"
+      io.kompose.network/puj: "true"
