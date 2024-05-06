@@ -55,7 +55,7 @@ services:
       start_period: 5s
     restart: always
     networks:
-      - netinference
+      - puj
     
    
   mlflowdb:
@@ -73,7 +73,7 @@ services:
       start_period: 5s
     restart: always
     networks:
-      - netinference
+      - puj
 
   rawdb:
     image: postgres:13
@@ -90,7 +90,7 @@ services:
       start_period: 5s
     restart: always 
     networks:
-      - netinference
+      - puj
     
   cleandb:
     image: postgres:13
@@ -107,7 +107,7 @@ services:
       start_period: 5s
     restart: always
     networks:
-      - netinference
+      - puj
 
   redis:
     image: redis:latest
@@ -121,7 +121,7 @@ services:
       start_period: 30s
     restart: always
     networks:
-      - netinference
+      - puj
 
   airflow-webserver:
     <<: *airflow-common
@@ -140,7 +140,7 @@ services:
       airflow-init:
         condition: service_completed_successfully
     networks:
-      - netinference
+      - puj
 
   airflow-scheduler:
     <<: *airflow-common
@@ -157,7 +157,7 @@ services:
       airflow-init:
         condition: service_completed_successfully
     networks:
-      - netinference
+      - puj
 
   airflow-worker:
     <<: *airflow-common
@@ -181,7 +181,7 @@ services:
       airflow-init:
         condition: service_completed_successfully
     networks:
-      - netinference
+      - puj
 
   airflow-triggerer:
     <<: *airflow-common
@@ -198,7 +198,7 @@ services:
       airflow-init:
         condition: service_completed_successfully
     networks:
-      - netinference
+      - puj
 
   airflow-init:
     <<: *airflow-common
@@ -278,7 +278,7 @@ services:
     volumes:
       - ${AIRFLOW_PROJ_DIR:-.}:/sources
     networks:
-      - netinference
+      - puj
 
   airflow-cli:
     <<: *airflow-common
@@ -293,7 +293,7 @@ services:
       - -c
       - airflow
     networks:
-      - netinference
+      - puj
 
   # You can enable flower by adding "--profile flower" option e.g. docker-compose --profile flower up
   # or by explicitly targeted on the command line e.g. docker-compose up flower.
@@ -317,7 +317,7 @@ services:
       airflow-init:
         condition: service_completed_successfully
     networks:
-      - netinference
+      - puj
         
   minio:
     container_name: Minio
@@ -333,7 +333,7 @@ services:
       - ./minio-data:/data
     restart: unless-stopped
     networks:
-      - netinference
+      - puj
     
   mlflow:
     build: ./mlflow
@@ -351,7 +351,7 @@ services:
       - mlflowdb
     command: mlflow server --backend-store-uri postgresql+psycopg2://mlflowuser:mlflowpass@mlflowdb/mlflowruns --default-artifact-root s3://mlflows3/artifacts --host 0.0.0.0 --serve-artifacts
     networks:
-      - netinference
+      - puj
       
   # inference:
     # build: ./inference
@@ -384,6 +384,5 @@ volumes:
   clean-db-volume:
 
 networks:
-  netinference:
-    external: true
+  puj:
 
