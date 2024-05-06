@@ -29,6 +29,7 @@ spec:
           name: inference
           ports:
             - containerPort: 80
+            imagePullPolicy: Always
           resources: {}
       restartPolicy: Always
 status: {}
