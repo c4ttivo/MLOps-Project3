@@ -353,28 +353,28 @@ services:
     networks:
       - netinference
       
-  inference:
-    build: ./inference
-    ports:
-      - "80:80"
-    depends_on:
-      - mlflow
-    networks:
-      - netinference
+  # inference:
+    # build: ./inference
+    # ports:
+      # - "80:80"
+    # depends_on:
+      # - mlflow
+    # networks:
+      # - netinference
 
-  streamlit: 
-    build: ./streamlit
-    container_name: streamlit_app
-    ports:
-      - "8089:8501"
-    volumes:
-      - ./streamlit:/app
-    depends_on:
-      - mlflow  # Assuming Streamlit depends on the MLflow service
-    #restart: unless-stopped
-    restart: always
-    networks:
-      - netinference
+  # streamlit: 
+    # build: ./streamlit
+    # container_name: streamlit_app
+    # ports:
+      # - "8089:8501"
+    # volumes:
+      # - ./streamlit:/app
+    # depends_on:
+      # - mlflow  # Assuming Streamlit depends on the MLflow service
+    # #restart: unless-stopped
+    # restart: always
+    # networks:
+      # - netinference
 
 volumes:
   minio-data:
