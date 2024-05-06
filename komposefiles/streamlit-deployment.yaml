@@ -26,7 +26,7 @@ spec:
         io.kompose.service: streamlit
     spec:
       containers:
-        - image: streamlit
+        - image: c4ttiv0/mlops-puj:streamlit
           name: streamlit-app
           ports:
             - containerPort: 8501

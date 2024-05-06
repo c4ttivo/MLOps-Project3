@@ -25,7 +25,7 @@ spec:
         io.kompose.service: inference
     spec:
       containers:
-        - image: inference
+        - image: c4ttiv0/mlops-puj:inference
           name: inference
           ports:
             - containerPort: 80
