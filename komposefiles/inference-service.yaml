@@ -9,11 +9,11 @@ metadata:
     io.kompose.service: inference
   name: inference
 spec:
+  type: LoadBalancer
   ports:
-    - name: "80"
+    - name: "http"
       port: 80
       targetPort: 80
   selector:
     io.kompose.service: inference
-status:
-  loadBalancer: {}
+
