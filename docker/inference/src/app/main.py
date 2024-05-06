@@ -7,12 +7,11 @@ import mlflow.sklearn
 from sklearn.compose import make_column_transformer
 import pandas as pd
 
-
-os.environ['MLFLOW_S3_ENDPOINT_URL'] = "http://minio:9000"
+os.environ['MLFLOW_S3_ENDPOINT_URL'] = "http://10.43.101.155:8081"
 os.environ['AWS_ACCESS_KEY_ID'] = 'minioadmin'
 os.environ['AWS_SECRET_ACCESS_KEY'] = 'minioadmin'
 
-mlflow.set_tracking_uri("http://mlflow:5000/")
+mlflow.set_tracking_uri("http://10.43.101.155:8082/")
 model = mlflow.sklearn.load_model("models:/random_forest@production")
 
 
