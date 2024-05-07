@@ -204,5 +204,5 @@ A través de la interfaz de Streamlit, es posible hacer predicciones usando el m
 
 http://10.43.101.155:8089 </br>
 
-![alt text](https://github.com/c4ttivo/MLOPS-Project2/blob/main/img/inference.png?raw=true)
+![alt text](https://github.com/c4ttivo/MLOps-Project3/blob/main/img/inference.png?raw=true)
 
