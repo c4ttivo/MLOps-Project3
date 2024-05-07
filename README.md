@@ -114,7 +114,7 @@ La solución está compuesta por los siguientes contenedores:
 	*	**Postgresql**: Se encuentran dos servicios, uno de apoyo a MLflow y otro para el almacenamiento de la recolección de datos (modeldb).
 *   **Kubernetes**:
 	*	**Inference**: Servicio de FastAPI que consume el modelo entrenado y almacenado en MLflow y que permite hacer inferencias.
-	*	**Smarlint**: Interfaz web que permite hacer inferencias consumiendo la API.
+	*	**Streamlit**: Interfaz web que permite hacer inferencias consumiendo la API.
 
 
 ## Instrucciones
@@ -209,4 +209,5 @@ http://10.43.101.155:8089 </br>
 
 ## Video
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/4flOEZq96F0?si=_en9DDe33Umd8FTU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/4flOEZq96F0/0.jpg)](https://www.youtube.com/watch?v=4flOEZq96F0)
