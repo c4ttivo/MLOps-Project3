@@ -114,7 +114,7 @@ La solución está compuesta por los siguientes contenedores:
 	*	**Postgresql**: Se encuentran dos servicios, uno de apoyo a MLflow y otro para el almacenamiento de la recolección de datos (modeldb).
 *   **Kubernetes**:
 	*	**Inference**: Servicio de FastAPI que consume el modelo entrenado y almacenado en MLflow y que permite hacer inferencias.
-	*	**Smarlint**: Interfaz web que permite hacer inferencias.
+	*	**Smarlint**: Interfaz web que permite hacer inferencias consumiendo la API.
 
 
 ## Instrucciones
@@ -122,14 +122,14 @@ Clone el repositorio de git usando el siguiente comando en la consola de su sist
 
 
 ```
-$ git clone https://github.com/c4ttivo/MLOPS-Project3.git
+$ git clone https://github.com/c4ttivo/MLOps-Project3.git
 ```
 
 Una vez ejecutado el comando anterior aparece el folder MLOPS-Project2. Luego es necesario ubicarse en el directorio de trabajo en el que se encuentra el archivo docker-compose.yml.
 
 
 ```
-$ cd MLOPS-Project3/
+$ cd MLOps-Project3/
 ```
 
 Ahora es necesario construir los contenedores
@@ -142,16 +142,16 @@ $ sudo docker-compose up
 
 En este paso se descarga las imágenes de acuerdo con lo especificado en el archivo docker-compose.yml.
 
-<img src="https://github.com/c4ttivo/MLOPS-Project3/blob/main/img/console.png?raw=true" width="50%" height="50%" />
+<img src="https://github.com/c4ttivo/MLOps-Project3/blob/main/img/console.png?raw=true" width="50%" height="50%" />
 
 Una vez finalizada la creación de los contenedores, se debe poder ingresar a las aplicaciones de cada contenedor a través de las siguientes URLs:
 
 http://10.43.101.155:8083/ </br>
-<img src="https://github.com/c4ttivo/MLOPS-Project3/blob/main/img/minio.png?raw=true" width="50%" height="50%" /> </br>
+<img src="https://github.com/c4ttivo/MLOps-Project3/blob/main/img/minio.png?raw=true" width="50%" height="50%" /> </br>
 http://10.43.101.155:8082/ </br>
-<img src="https://github.com/c4ttivo/MLOPS-Project3/blob/main/img/mlflow.png?raw=true" width="50%" height="50%" /> </br>
+<img src="https://github.com/c4ttivo/MLOps-Project3/blob/main/img/mlflow.png?raw=true" width="50%" height="50%" /> </br>
 http://10.43.101.155:8080/ </br>
-<img src="https://github.com/c4ttivo/MLOPS-Project3/blob/main/img/airflow.png?raw=true" width="50%" height="50%" /> </br>
+<img src="https://github.com/c4ttivo/MLOps-Project3/blob/main/img/airflow.png?raw=true" width="50%" height="50%" /> </br>
 
 ## Configuración
 
@@ -159,11 +159,50 @@ Los siguientes pasos permiten realizar la configuración del ambiente luego de s
 
 1.	A continuación se debe configurar el bucket de S3, con el nombre **mlflows3** requerido por **MLflow**.
 
+
+## Kubernetes
+
+A continuación se deben ejecutar los comandos para desplegar los servicios de kubernetes.
+
+```
+$ kubectl apply -f komposefiles/
+```
+
+Luego verificamos el estado de los pods y los servicios ejecutando los siguientes comandos:
+
+```
+$ kubectl get pods
+$ kubectl get service
+```
+
+Debe mostrar que los pods se están ejecutando.
+
+## Proxy
+
+Dado que los contenedores no exponen el puerto sobre la IP de la interfaz de red de la VM, se hace necesario usar un proxy para poder acceder a los servicios a través de la IP externa.
+
+### Instalación socat
+
+Con el siguiente comando instalammos socat.
+
+```
+$ sudo apt install socat
+```
+
+Una vez se finaliza la instalación, mapeamos los servicios de la siguiente forma:
+
+```
+$ sudo socat TCP-LISTEN:80,fork TCP:192.168.49.2:30001 &
+$ sudo socat TCP-LISTEN:8089,fork TCP:192.168.49.2:30000 &
+```
+
+Con esto se habilitan los puertos para acceder a los contenedores en kubernetes.
+
 ## Predicción
 
-A través de la interfaz de FastAPI, es posible hacer predicciones usando el modelo almacenado y etiquetado @produccion.
+A través de la interfaz de Streamlit, es posible hacer predicciones usando el modelo almacenado y etiquetado @produccion.
 
-http://10.43.101.155/docs </br>
+http://10.43.101.155:8089 </br>
 
 ![alt text](https://github.com/c4ttivo/MLOPS-Project2/blob/main/img/inference.png?raw=true)
 
